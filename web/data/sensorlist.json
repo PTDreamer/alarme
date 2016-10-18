@@ -1,0 +1,15 @@
+[
+{"id":1, "name":"Garagem","location":"garagem/garagem", "svgfile":"CAVE/Garagem", "svgelement":"garagemAlarm"},
+{"id":2, "name":"Sala","location":"rc/sala", "svgfile":"RC/Res do Chao", "svgelement":"salaAlarm"},
+{"id":3, "name":"Hall de entrada","location":"rc/hall", "svgfile":"RC", "svgelement":"hallAlarm"},
+{"id":4, "name":"Cozinha","location":"rc/cozinha", "svgfile":"RC", "svgelement":"cozinhaAlarm"},
+{"id":5, "name":"Escritorio","location":"rc/escritorio", "svgfile":"RC", "svgelement":"escritorioAlarm"},
+{"id":6, "name":"Quarto casal","location":"1a/quartocasal", "svgfile":"1A/1 Andar", "svgelement":"casalAlarm"},
+{"id":7, "name":"Hall 1Andar","location":"1a/hall", "svgfile":"1A", "svgelement":"hallAlarm"},
+{"id":8, "name":"Quarto Carolina","location":"1a/quartocarolina", "svgfile":"1A", "svgelement":"carolinaAlarm"},
+{"id":9, "name":"Quarto Kiko","location":"1a/quartokiko", "svgfile":"1A", "svgelement":"kikoAlarm"},
+{"id":10, "name":"Closet","location":"1a/closet", "svgfile":"1A", "svgelement":"closetAlarm"},
+{"id":11, "name":"Entrada Pedonal","location":"ext/entradapedonal", "svgfile":"EXT/Exterior", "svgelement":"pedonalAlarm"},
+{"id":12, "name":"Entrada Veiculos","location":"ext/entradaveiculos", "svgfile":"EXT", "svgelement":"veiculosAlarm"},
+{"id":13, "name":"Jardim","location":"ext/jardim", "svgfile":"EXT", "svgelement":"jardimAlarm"}
+]

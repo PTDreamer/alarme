@@ -1,0 +1,10 @@
+{"devices":
+	[
+		{"id":1,"name":"name1","isSensor":1,"type":"remote", "address": 110111, "isDisabled":0, "globallyDisabled":0, "mqtt" : "mqtt1"},
+		{"id":2,"name":"name2","isSensor":1,"type":"radioPIR", "address": 110112, "isDisabled":0, "globallyDisabled":0, "mqtt" : "mqtt2"},
+		{"id":3,"name":"name3","isSensor":0,"type":"wiredSiren", "address": 110113, "isDisabled":1, "globallyDisabled":0, "mqtt" : "mqtt3"},
+		{"id":4,"name":"name4","isSensor":0,"type":"radioSiren", "address": 110114, "isDisabled":0, "globallyDisabled":0, "mqtt" : "mqtt4"}
+
+	],
+	"preAlarmTime": 2,
+	"alarmTime": 69}

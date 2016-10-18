@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg3390"
+   version="1.1"
+   inkscape:version="0.91 r"
+   width="270.90399"
+   height="379.22266"
+   viewBox="0 0 270.90399 379.22267"
+   sodipodi:docname="CAVE.svg">
+  <metadata
+     id="metadata3396">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3394">
+    <pattern
+       inkscape:isstock="true"
+       inkscape:stockid="Stripes 1:1"
+       id="Strips1_1"
+       patternTransform="translate(0,0) scale(10,10)"
+       height="1"
+       width="2"
+       patternUnits="userSpaceOnUse"
+       inkscape:collect="always">
+      <rect
+         id="rect4967"
+         height="2"
+         width="1"
+         y="-0.5"
+         x="0"
+         style="fill:black;stroke:none" />
+    </pattern>
+  </defs>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1440"
+     inkscape:window-height="848"
+     id="namedview3392"
+     showgrid="false"
+     inkscape:zoom="1.6802272"
+     inkscape:cx="101.24159"
+     inkscape:cy="172.7291"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="MainPlant"
+     style="display:inline"
+     transform="translate(-254.82262,-302.29653)">
+    <path
+       style="display:inline;fill:#da0000;fill-opacity:1"
+       d="m 164.26313,373.35478 0,-4.54416 -47.16624,0.29393 c -47.293415,0.29473 -56.004314,0.0698 -62.640339,-1.61748 -10.330354,-2.6266 -18.544145,-9.10598 -22.774419,-17.96542 L 29.45993,344.8677 29.095202,273.74636 c -0.2006,-39.11673 -0.401466,-76.14297 -0.446368,-82.28054 l -0.08164,-11.1592 -13.688625,0 -13.6886257,0 0,-89.571225 0,-89.5712221 68.4431267,0 68.44313,0 0,6.8443127 0,6.8443124 65.76491,0 65.76492,0 0,69.038284 0,69.038288 -46.724,0 -46.72401,0 0.15292,40.6195 0.15292,40.61951 46.57109,0.15242 46.57108,0.15242 0,71.71286 0,71.71287 -52.67145,0 -52.67145,0 0,-4.54417 z"
+       id="garagemAlarm"
+       inkscape:connector-curvature="0"
+       inkscape:label="#path5883"
+       transform="translate(254.82262,302.29653)" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 282.99745,536.09832 0,106.23563 c 0,0 0.89274,30.05546 41.95861,30.05546 41.06588,0 41.06588,-0.15936 41.06588,-0.15936 l 52.07629,-0.21042 0,8.99957 107.12837,0 0,-364.83162 -131.82741,0 0,-13.39105 -138.07657,0 0,180.63034 27.37725,0 z"
+       id="path3402"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccsccccccccccc" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 431.48928,455.75204 0,80.34628"
+       id="path3440"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 431.48928,495.6276 93.43974,0"
+       id="path3442"
+       inkscape:connector-curvature="0" />
+    <path
+       d="m 432.55966,476.00467 0,-18.74747 45.82713,0 45.82714,0 0,18.74747 0,18.74746 -45.82714,0 -45.82713,0 0,-18.74746 z"
+       id="path5698"
+       inkscape:connector-curvature="0"
+       style="fill:url(#Strips1_1);fill-opacity:1" />
+    <path
+       d="m 432.55966,516.17781 0,-19.6402 45.82713,0 45.82714,0 0,19.6402 0,19.6402 -45.82714,0 -45.82713,0 0,-19.6402 z"
+       id="path5706"
+       inkscape:connector-curvature="0"
+       style="fill:url(#Strips1_1);fill-opacity:1" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 431.57542,455.73853 93.84731,0"
+       id="path5877"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 431.365,535.69813 94.47857,0"
+       id="path5879"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="335.48895"
+       y="502.93372"
+       id="text3436"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3438"
+         x="335.48895"
+         y="502.93372"
+         style="font-size:15px">GARAGEM</tspan></text>
+  </g>
+</svg>

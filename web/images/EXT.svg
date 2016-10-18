@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg3390"
+   version="1.1"
+   inkscape:version="0.91 r"
+   width="270.90399"
+   height="379.22266"
+   viewBox="0 0 270.90399 379.22267"
+   sodipodi:docname="EXT.svg">
+  <metadata
+     id="metadata3396">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3394" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1440"
+     inkscape:window-height="848"
+     id="namedview3392"
+     showgrid="false"
+     inkscape:zoom="1.1653885"
+     inkscape:cx="-37.597921"
+     inkscape:cy="180.52223"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="MainPlant"
+     style="display:inline"
+     transform="translate(-254.82262,-302.29653)">
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 336.63603,514.00309 0,53.11782 c 0,0 0.44637,15.02773 20.97931,15.02773 20.53294,0 20.53294,-0.0797 20.53294,-0.0797 l 26.03814,-0.10521 0,4.49978 53.56419,0 0,-182.41581 -65.91371,0 0,-6.69552 -69.03828,0 0,90.31517 13.68862,0 z"
+       id="path3402"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccsccccccccccc" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 261.49694,308.97085 256.65789,0 0,79.48507 -253.62411,0 -3.91604,0 0,-79.55924 z"
+       id="path6159"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 329.47583,502.17986 -65.2143,0 0,169.04233 60.92389,0 4.43205,-1.18756 z"
+       id="path6161"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 519.11216,593.13665 -84.95021,0 0,82.37596 81.51788,0 2.61632,-0.70105 z"
+       id="path6163"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#da0000;fill-opacity:1"
+       d="m 6.4217378,46.390702 0,-39.0427731 127.8543522,0 127.85436,0 0,39.0427731 0,39.042772 -127.85436,0 -127.8543522,0 0,-39.042772 z"
+       id="jardimAlarm"
+       inkscape:connector-curvature="0"
+       transform="translate(254.82262,302.29653)"
+       inkscape:label="#path6165" />
+    <path
+       style="fill:#da0000;fill-opacity:1"
+       d="m 10.712152,284.07967 0,-83.66308 31.182157,0 31.182157,0 0.566911,23.30764 c 0.311802,12.81921 0.566911,50.23322 0.566911,83.14224 0,53.76974 -0.137576,59.88739 -1.357304,60.35544 -0.746519,0.28647 -15.033599,0.52084 -31.749068,0.52084 l -30.391764,0 0,-83.66308 z"
+       id="entradaPedonalAlarm"
+       inkscape:connector-curvature="0"
+       inkscape:label="#path6167"
+       transform="translate(254.82262,302.29653)" />
+    <path
+       style="fill:#da0000;fill-opacity:1"
+       d="m 180.61257,331.70327 0,-40.3299 41.18798,0 41.18798,0 0,40.3299 0,40.3299 -41.18798,0 -41.18798,0 0,-40.3299 z"
+       id="entradaVeiculosAlarm"
+       inkscape:connector-curvature="0"
+       transform="translate(254.82262,302.29653)"
+       inkscape:label="#path6169" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="362.08298"
+       y="352.01535"
+       id="text6171"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan6173"
+         x="362.08298"
+         y="352.01535"
+         style="font-size:15px">JARDIM</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="297.6658"
+       y="583.69775"
+       id="text6175"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan6177"
+         x="297.6658"
+         y="583.69775"
+         style="font-size:12.5px;text-align:center;text-anchor:middle">ENTRADA</tspan><tspan
+         sodipodi:role="line"
+         x="297.6658"
+         y="599.32275"
+         id="tspan6179"
+         style="font-size:12.5px;text-align:center;text-anchor:middle">PEDONAL</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="441.02661"
+       y="626.60187"
+       id="text6181"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan6183"
+         x="441.02661"
+         y="626.60187"
+         style="font-size:15px">ENTRADA</tspan><tspan
+         sodipodi:role="line"
+         x="441.02661"
+         y="645.35187"
+         id="tspan6185"
+         style="font-size:15px">VEICULOS</tspan></text>
+  </g>
+</svg>

@@ -1,0 +1,5 @@
+[
+	{"svgname" : "1A.svg", "svgid" : "1", "sensorid" : 0},
+	{"svgname" : "CAVE.svg", "svgid" : "2", "sensorid" : 1},
+	{"svgname" : "RC.svg", "svgid" : "salaAlarm", "sensorid" : 2}
+]
