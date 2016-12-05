@@ -20,7 +20,9 @@ void m_pcf8574::setup() {
 void ICACHE_RAM_ATTR m_pcf8574::PCFInterrupt() {
   m_pcf8574::PCFInterruptFlag = true;
 }
+void m_pcf8574::output(String str, bool val) {
 
+}
 void m_pcf8574::handle() {
   if(m_pcf8574::PCFInterruptFlag) {
     currentValue = pcf8574_0->read8() << 8;

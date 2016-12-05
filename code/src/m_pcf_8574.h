@@ -13,4 +13,5 @@ public:
   PCF857x *pcf8574_1;
   bool m_valuesChanged;
   uint16_t currentValue;
+  void output(String, bool);
 };

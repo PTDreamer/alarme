@@ -2,7 +2,7 @@
 #include <ArduinoJson.h>
 #include <FS.h>                   //this needs to be first, or it all crashes and burns...
 
-int parser::parseJSONFiletoStructDevices(String filename, deviceStruct* devices, int & alarmTime, int & preAlarmTime) {
+int parser::parseJSONFiletoStructDevices(String filename, deviceStruct** devices) {
   int ret;
   if(!SPIFFS.exists(filename)) {
     Serial.print("FILE NOT FOUND");
@@ -22,47 +22,50 @@ int parser::parseJSONFiletoStructDevices(String filename, deviceStruct* devices,
     return 0;
   }
   JsonArray& array = root["devices"].asArray();
+  Serial.println("creating array");
+  *devices = new parser::deviceStruct[array.size()];
+  Serial.printf("size:%d\n", array.size());
   if (array.success())
   {
     ret = array.size();
     for(int i=0;i<ret; ++i) {
-      devices[i].id = array[i]["id"];
-      devices[i].name = array[i]["name"];
-      devices[i].isSensor = array[i].as<JsonObject>().get<bool>("isSensor");
+      Serial.printf("%d\n", i);
+      (*devices)[i].id = array[i]["id"];
+      (*devices)[i].name = array[i]["name"];
+      (*devices)[i].isSensor = array[i].as<JsonObject>().get<bool>("isSensor");
       const char* temp = array[i]["type"];
       if(strcmp(temp, "remote"))
-        devices[i].type = REMOTE;
+        (*devices)[i].type = REMOTE;
       else if(strcmp(temp, "wiredBuzzer"))
-        devices[i].type = WIRED_BUZZER;
+        (*devices)[i].type = WIRED_BUZZER;
       else if(strcmp(temp, "radioBuzzer"))
-        devices[i].type = RADIO_BUZZER;
+        (*devices)[i].type = RADIO_BUZZER;
       else if(strcmp(temp, "radioSiren"))
-        devices[i].type = RADIO_SIREN;
-      else if(strcmp(temp, "wirdedSiren"))
-        devices[i].type = WIRED_SIREN;
+        (*devices)[i].type = RADIO_SIREN;
+      else if(strcmp(temp, "wiredSiren"))
+        (*devices)[i].type = WIRED_SIREN;
       else if(strcmp(temp, "wiredPIR"))
-        devices[i].type = WIRED_PIR;
+        (*devices)[i].type = WIRED_PIR;
       else if(strcmp(temp, "radioPIR"))
-        devices[i].type = RADIO_PIR;
-      devices[i].address = array[i]["address"];
-      devices[i].isDisabled = array[i].as<JsonObject>().get<bool>("isDisabled");
-      devices[i].mqtt = array[i]["mqtt"];
+        (*devices)[i].type = RADIO_PIR;
+      (*devices)[i].address = array[i]["address"].as<String>();
+      (*devices)[i].isDisabled = array[i].as<JsonObject>().get<bool>("isDisabled");
+      (*devices)[i].globallyDisabled = array[i].as<JsonObject>().get<bool>("globallyDisabled");
+      (*devices)[i].mqtt = array[i]["mqtt"];
+      (*devices)[i].lastActive = 0;
     }
     delete buffer;
-    preAlarmTime = root["preAlarmTime"];
-    alarmTime = root["alarmTime"];
+    Serial.printf("returning %d\n",ret );
     return ret;
   }
   delete buffer;
   return 0;
 }
 
-int parser::parseStructDevicesToJSONFile(char *filename, deviceStruct* devices, int alarmTime, int preAlarmTime, int lenght) {
+int parser::parseStructDevicesToJSONFile(char *filename, deviceStruct* devices, int lenght) {
   File f = SPIFFS.open(filename, "w");
   DynamicJsonBuffer jsonBuffer;
   JsonObject& root = jsonBuffer.createObject();
-  root["alarmTime"] = alarmTime;
-  root["preAlarmTime"] = preAlarmTime;
   JsonArray& devs = root.createNestedArray("devices");
     for(int i=0;i<lenght; ++i) {
       JsonObject& device = jsonBuffer.createObject();
@@ -139,7 +142,7 @@ int parser::parseStructSVGToJSONFile(char *filename, svg* svgs, int lenght) {
     return 0;
 }
 
-int parser::parseSVGFiletoStructMode(char *filename, mode* modes) {
+int parser::parseFiletoStructMode(char *filename, mode** modes) {
   int ret;
   if(!SPIFFS.exists(filename)) {
     return 0;
@@ -154,9 +157,28 @@ int parser::parseSVGFiletoStructMode(char *filename, mode* modes) {
     return 0;
   }
   ret = array.size();
+  *modes = new parser::mode[array.size()];
   for(int i=0;i<ret; ++i) {
-    modes[i].id = array[i]["id"];
-    modes[i].modename = array[i]["name"];
+    (*modes)[i].id = array[i]["id"];
+    (*modes)[i].modename = array[i]["name"].as<String>();
+    (*modes)[i].autoStart = array[i]["autoStart"].as<bool>();
+    (*modes)[i].autoEnd = array[i]["autoEnd"].as<bool>();
+    (*modes)[i].startTime = array[i]["startTime"].as<String>();
+    (*modes)[i].endTime = array[i]["endTime"].as<String>();
+    (*modes)[i].armsSystem = array[i]["armsSystem"].as<bool>();
+    (*modes)[i].disarmsSystem = array[i]["disarmsSystem"].as<bool>();
+    (*modes)[i].preAlarmTime = array[i]["preAlarmTime"].as<int>();
+    (*modes)[i].alarmTime = array[i]["alarmTime"].as<int>();
+    (*modes)[i].maxAlarms = array[i]["maxAlarms"].as<int>();
+    (*modes)[i].paused = array[i]["paused"].as<bool>();
+    (*modes)[i].active = array[i]["active"].as<bool>();
+    (*modes)[i].activedays = array[i]["activedays"].as<int>();
+    JsonArray &ds = array[i]["disabledSensors"].as<JsonArray>();
+    (*modes)[i].disabledSensors = new int[ds.size()];
+    for (size_t ii = 0; ii < ds.size(); ii++) {
+      (*modes)[i].disabledSensors[ii] = ds[ii];
+    }
+    (*modes)[i].disabledSensorsSize = ds.size();
   }
   delete buffer;
   return ret;

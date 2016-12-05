@@ -57,8 +57,6 @@ function getDevices() {
         contentType: 'application/json',
         processData: false,
         success: function( data, textStatus, jQxhr ){
-            $("#preAlarmTime").val(data.preAlarmTime);
-            $("#alarmTime").val(data.alarmTime);
             $('#tablebody').find("tr[id!='rowtemplate']").remove();
             $.each(data.devices, function(device) {
                 var newRow = $("#rowtemplate").clone(true);
@@ -265,11 +263,7 @@ $('#save').click(function(e) {
     var hasError = false;
     var dev = {
         "devices" : [],
-        "alarmTime" : 0,
-        "preAlarmTime" : 0
         };
-    dev.alarmTime = Number($("#alarmTime").val());
-    dev.preAlarmTime = Number($("#preAlarmTime").val());
    	dev.devices = [];
         $("#tablebody").find("tr").each(function (index) {
             if($(this).attr("id") != "rowtemplate") {
@@ -280,7 +274,7 @@ $('#save').click(function(e) {
                             "type" : "",
                         	"address" : "",
                         	"mqtt" : "",
-                        	"isDisabled" : 0};
+                        	"globallyDisabled" : 0};
                 record.id = Number($(this).find(".ioId").text());
                 record.name = $(this).find(".ioName").val();
                 if($(this).find(".sensorOrActuator").val() == "sensor") {
@@ -292,9 +286,9 @@ $('#save').click(function(e) {
                 record.address = Number($(this).find(".deviceAddress").val());
                 record.mqtt = $(this).find(".mqqtAddress").val();
                 if($(this).find(".isDisabled").prop('checked')) {
-                    record.isDisabled = 1;
+                    record.globallyDisabled = 1;
                 } else {
-                    record.isDisabled = 0;
+                    record.globallyDisabled = 0;
                 }
                 dev.devices.push(record);
             }

@@ -100,6 +100,7 @@ function loadMode(id, mode) {
     modeItem.find(".armsSystem").prop("checked", mode.armsSystem);
     modeItem.find(".disarmsSystem").prop("checked", mode.disarmsSystem);
     modeItem.find(".preAlarmTime").val(mode.preAlarmTime);
+        modeItem.find(".alarmTime").val(mode.alarmTime);
     modeItem.find(".maxAlarms").val(mode.maxAlarms);
     modeItem.find(".modeNameLabel").text(mode.name);
     var hsab = (mode.activedays & sab) != 0;
@@ -134,6 +135,7 @@ function htmlToMode(id) {
     mode.armsSystem = modeItem.find(".armsSystem").prop("checked");
     mode.disarmsSystem = modeItem.find(".disarmsSystem").prop("checked");
     mode.preAlarmTime = modeItem.find(".preAlarmTime").val();
+    mode.alarmTime = modeItem.find(".alarmTime").val();
     mode.maxAlarms = modeItem.find(".maxAlarms").val();
     mode.disabledSensors = [];
     var sensors = modeItem.find(".sensorTableBody").find(":checked").closest("tr").each(function(index) {
@@ -289,6 +291,7 @@ $('#newMode').click(function(e) {
         armsSystem: "",
         disarmsSystem: "",
         preAlarmTime: "",
+        alarmTime: "",
         maxAlarms: "",
         disabledSensors: [],
         name: "",

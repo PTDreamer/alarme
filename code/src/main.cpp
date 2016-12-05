@@ -3,6 +3,7 @@
 #define MAX_SVGS  10
 #define MAX_SVG_RELATIONS  20
 #define MAX_MODES 10
+#define ALARM_OUT_REPEAT 5 * 1000
 #include <FS.h>                   //this needs to be first, or it all crashes and burns...
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
@@ -18,15 +19,31 @@
 #include "indexHandler.h"
 #include "modesHandler.h"
 #include "settingsHandler.h"
-
-parser::mode modes[MAX_MODES];
-parser::deviceStruct devices[MAX_DEVICES];
+#include "TimeAlarms.h"
+struct radioMessage {
+  unsigned long code;
+  unsigned int size;
+};
+enum alarm_status {STATUS_ARMED, STATUS_DISARMED, STATUS_PREALARM, STATUS_ALARM  };
+struct current_status_struct {
+  alarm_status status;
+  alarm_status previousStatus;
+  unsigned long statusTime;
+  int alarmCount;
+};
+current_status_struct current_status;
+parser::mode *modes;
+parser::deviceStruct *devices;
 bool testRadio = false;
 bool testWired = false;
 volatile unsigned long receivedData = 0;
 int currentDeviceLenght = 0;
 int currentModesLenght = 0;
+radioMessage stringToRadioMessage(String);
+String radioMessageToString(radioMessage);
+void reloadSettings();
 parser m_parser;
+parser::mode currentMode;
 AsyncWebServer server(80);
 time_t getNtpTime() {
   return time(NULL);
@@ -36,18 +53,9 @@ void blink();
 void setupArduinoOTA();
 m_pcf8574 pcf;
 RCSwitch mySwitch = RCSwitch();
-
-void onFileUpload(AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final){
-
+bool sendData(String address, String type, String value) {
+  return false;
 }
-void devicesHandler(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total){
-
-}
-
-void saveSVGHandler(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total){
-
-}
-
 void setup() {
   pinMode(0, OUTPUT); //ALIVE PIN
 
@@ -86,6 +94,7 @@ void setup() {
     f.println("[]");
     f.close();
   }
+  reloadSettings();
   mySwitch.enableReceive(4); // Receiver on interrupt 0 => that is pin #2
   mySwitch.enableTransmit(16);
   mySwitch.setProtocol(1);
@@ -115,6 +124,25 @@ void setup() {
   json = String();
   });
   server.on("/data/getteststatus.json",[](AsyncWebServerRequest *request){
+    if(request->hasParam("testWired")) {
+      if(request->getParam("testWired")->value().equalsIgnoreCase("1")) {
+        testWired = true;
+      }
+      else {
+        testWired = false;
+      }
+    }
+    if(request->hasParam("testRadio")) {
+      if(request->getParam("testRadio")->value().equalsIgnoreCase("1")) {
+        testRadio = true;
+      }
+      else {
+        testRadio = false;
+      }
+    }
+    if(request->hasParam("address") && request->hasParam("type") && request->hasParam("value")) {
+      sendData(request->getParam("address")->value(), request->getParam("type")->value(), request->getParam("value")->value());
+    }
   String json = "{";
   json += "\"testRadio\":"+String(testRadio);
   json += ", \"testWired\":"+String(testWired);
@@ -135,10 +163,12 @@ void setup() {
   request->send(200, "text/json", json);
   json = String();
   });
+  server.on("/data/gettime.json", [](AsyncWebServerRequest *request){
+    AsyncResponseStream *response = request->beginResponseStream("application/json");
+    response->printf("{\"hour\" :%u,\"minute\" :%u,\"seconds\" :%u}", hour(), minute(), second());
+    request->send(response);
+  });
 
-  //server.on("/data/statuschange.json", HTTP_POST, [](AsyncWebServerRequest *request){
-  //  Serial.print("WTF");
-  //}, NULL, statusChangeBodyHandler);
   server.addHandler(new indexHandler(devices, &currentDeviceLenght));
   server.addHandler(new modesHandler());
   server.addHandler(new settingsHandler());
@@ -188,30 +218,124 @@ server.onNotFound([](AsyncWebServerRequest *request){
       Serial.printf("_GET[%s]: %s\n", p->name().c_str(), p->value().c_str());
     }
   }
-
   request->send(404);
 });
 
   server.begin();
-  int at, pat;
-  currentDeviceLenght = m_parser.parseJSONFiletoStructDevices("/www/data/getdevices.json",devices , at, pat);
-  for (size_t i = 0; i < currentDeviceLenght; i++) {
-    Serial.printf("%s %s\n", devices[i].address, devices[i].name);
-  }
 }//////////////////////////////////CONFIG_END/////////////////////////////////////////
 
 int small_counter = 0;
 int big_counter = 0;
 ///////////////////////////////////LOOP////////////////////////////////////////////////
 void loop() {
+  unsigned int periodic0 = 0;
+  uint16_t pcfval = 0;
+  String radioval = "";
   blink();
   pcf.handle();
   if(pcf.valuesChanged()) {
     Serial.println(pcf.read(), BIN);
   }
 
-  ArduinoOTA.handle();
+ArduinoOTA.handle();
 //  mySwitch.send(5393, 24);
+if(mySwitch.available()) {
+  unsigned long value = mySwitch.getReceivedValue();
+  for (size_t i = 0; i < currentDeviceLenght; i++) {
+    if(devices[i].isSensor && !devices[i].globallyDisabled && (devices[i].type == parser::RADIO_PIR) && devices[i].address.equalsIgnoreCase(String(value))) {
+      devices[i].lastActive = millis();
+    }
+  }
+}
+if(pcf.valuesChanged()) {
+  pcfval = pcf.read();
+}
+else {
+  pcfval = 0;
+}
+if(mySwitch.available()) {
+  radioMessage msg;
+  msg.code = mySwitch.getReceivedValue();
+  msg.size = mySwitch.getReceivedBitlength();
+  radioval = radioMessageToString(msg);
+}
+else {
+  radioval = "0:0";
+}
+for (size_t i = 0; i < currentDeviceLenght; i++) {
+  if(devices[i].isSensor && !devices[i].globallyDisabled) {
+    if(devices[i].type == parser::RADIO_PIR && devices[i].address.equalsIgnoreCase(radioval)) {
+      devices[i].lastActive = millis();
+    }
+    else if(devices[i].type == parser::WIRED_PIR && (1 << devices[i].address.toInt() & pcfval)) {
+      devices[i].lastActive = millis();
+    }
+  }
+}
+for (size_t i = 0; i < currentDeviceLenght; i++) {
+  if(millis() - devices[i].lastActive < (30 * 1000)) {
+    devices[i].isAlarmed = true;
+  }
+  else {
+    devices[i].isAlarmed = false;
+  }
+}
+bool alarmnow = false;
+switch (current_status.status) {
+  case STATUS_ARMED:
+  for (size_t i = 0; i < currentDeviceLenght; i++) {
+    if(devices[i].isAlarmed) {
+      alarmnow = true;
+      for (size_t ii = 0; ii < currentMode.disabledSensorsSize; ii++) {
+        if(currentMode.disabledSensors[ii] == devices[i].id) {
+          alarmnow = false;
+          break;
+        }
+      }
+      if(alarmnow) {
+        current_status.previousStatus = current_status.status;
+        current_status.status = STATUS_PREALARM;
+        current_status.statusTime = millis();
+      }
+    }
+  }
+  break;
+  case STATUS_PREALARM:
+    if(((millis() - current_status.statusTime) > (currentMode.preAlarmTime * 1000)) && (current_status.alarmCount < currentMode.maxAlarms)) {
+      current_status.previousStatus = current_status.status;
+      current_status.status = STATUS_ALARM;
+      current_status.statusTime = millis();
+      current_status.alarmCount = current_status.alarmCount + 1;
+    }
+  break;
+  case STATUS_ALARM:
+    if((millis() - current_status.statusTime) > (currentMode.alarmTime * 1000)) {
+      current_status.previousStatus = current_status.status;
+      current_status.status = STATUS_ARMED;
+      current_status.statusTime = millis();
+      for (size_t x = 0; x < currentDeviceLenght; x++) {
+        if(devices[x].type == parser::WIRED_SIREN) {
+          pcf.output(devices[x].address, 0);
+        }
+      }
+    }
+    else if((millis() - periodic0) > ALARM_OUT_REPEAT) {
+      periodic0 = millis();
+      for (size_t i = 0; i < currentDeviceLenght; i++) {
+        if(!devices[i].isSensor) {
+          if(devices[i].type == parser::RADIO_SIREN) {
+            radioMessage r = stringToRadioMessage(devices[i].address);
+            mySwitch.send(r.code, r.size);
+          }
+          else if(devices[i].type == parser::WIRED_SIREN) {
+            pcf.output(devices[i].address, 1);
+          }
+        }
+      }
+    }
+  break;
+}
+
   #ifdef TEST_RECEIVE
   if (mySwitch.available()) {
     int value = mySwitch.getReceivedValue();
@@ -263,7 +387,7 @@ void blink() {
   static int big_counter = 0;
   if(big_counter == 10) {
     digitalWrite(0, !digitalRead(0));
-    devices[1].isAlarmed = !devices[1].isAlarmed;
+    //devices[1].isAlarmed = !devices[1].isAlarmed;
     small_counter = 0;
     big_counter = 0;
   }
@@ -274,4 +398,81 @@ void blink() {
   else {
     ++small_counter;
   }
+}
+time_t stringToTime(String str) {
+  int temp;
+  String h = String(str);
+  String m = h;
+  temp = h.indexOf(":");
+  m = m.substring(temp + 1);
+  h.remove(temp);
+  time_t t = h.toInt() * SECS_PER_HOUR + m.toInt() * SECS_PER_MIN;
+  return t;
+}
+void alarmsHandler() {
+  int day = weekday();
+  day = 7 - day;
+  day = day - 1;
+  if(day == 0) {
+    day = 6;
+  }
+  day = 1 << day;
+  for (size_t i = 0; i < currentModesLenght; i++) {
+    if(modes[i].activedays && day == 0) {
+      continue;
+    }
+    if(modes[i].alarmID_start == Alarm.getTriggeredAlarmId()) {
+      if(modes[i].armsSystem && (current_status.status == STATUS_DISARMED)) {
+        current_status.previousStatus = current_status.status;
+        current_status.status = STATUS_ARMED;
+        current_status.statusTime = millis();
+      }
+      currentMode = modes[i];
+    }
+    else if(modes[i].alarmID_end == Alarm.getTriggeredAlarmId()) {
+      if(modes[i].disarmsSystem && (current_status.status == STATUS_ARMED)) {
+        current_status.previousStatus = current_status.status;
+        current_status.status = STATUS_DISARMED;
+        current_status.statusTime = millis();
+      }
+    }
+  }
+}
+void setupSchedules() {
+  for (size_t i = 0; i < currentModesLenght; i++) {
+    if(modes[i].autoStart) {
+      modes[i].alarmID_start = Alarm.alarmRepeat(stringToTime(modes[i].startTime), alarmsHandler);
+    } else if(modes[i].autoEnd) {
+      modes[i].alarmID_end = Alarm.alarmRepeat(stringToTime(modes[i].endTime), alarmsHandler);
+    }
+  }
+}
+void reloadSettings() {
+  current_status.status = STATUS_DISARMED;
+  current_status.previousStatus = STATUS_DISARMED;
+  current_status.statusTime = 0;
+  current_status.alarmCount = 0;
+  currentDeviceLenght = m_parser.parseJSONFiletoStructDevices("/www/data/getdevices.json", &devices);
+  for (size_t i = 0; i < currentDeviceLenght; i++) {
+    Serial.println("reloadSettings");
+    Serial.printf("%s %s\n", devices[i].address.c_str(), devices[i].name);
+  }
+  currentModesLenght = m_parser.parseFiletoStructMode("/www/data/getmode.json", &modes);
+  currentMode = modes[0];
+  for (size_t i = 0; i < currentModesLenght; i++) {
+    Serial.printf("modename:%s disabledSensorsSize:%d\n", modes[i].modename.c_str(), modes[i].disabledSensorsSize);
+  }
+}
+radioMessage stringToRadioMessage(String str) {
+  int index = str.indexOf(":");
+  radioMessage ret;
+  String s = str;
+  s.remove(index);
+  ret.code = s.toInt();
+  ret.size = str.substring(index + 1).toInt();
+}
+String radioMessageToString(radioMessage msg) {
+  String ret;
+  ret = String(msg.code) + ":" + String(msg.size);
+  return ret;
 }

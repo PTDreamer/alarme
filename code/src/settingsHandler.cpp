@@ -19,8 +19,20 @@ bool settingsHandler::canHandle(AsyncWebServerRequest *request) {
       return true;
     }
   }
+  else if(request->url().equalsIgnoreCase("/data/relations.json")){
+    if(request->method() == HTTP_POST){
+      return true;
+    }
+  }
+  else if(request->url().equalsIgnoreCase("/data/reboot.php")){
+    if(request->method() == HTTP_POST){
+      return true;
+    }
+  }
+
 }
 void settingsHandler::handleBody(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total) {
+  Serial.printf("settingsHandler::handleBody URL:%s\n", request->url().c_str());
   if(request->url().equalsIgnoreCase("/data/svg.json")) {
     DynamicJsonBuffer jsonBuffer;
     DynamicJsonBuffer jsonBufferSVGs;
@@ -89,7 +101,7 @@ void settingsHandler::handleBody(AsyncWebServerRequest *request, uint8_t *data, 
     response->print("{ \"status\": \"failure\"}");
     request->send(response);
     return;
-  }
+  }///data/svg.json
   else if(request->url().equalsIgnoreCase("/data/devices.json")) {
     DynamicJsonBuffer jsonBuffer;
     JsonObject& root = jsonBuffer.parseObject((const char*)data);
@@ -104,6 +116,31 @@ void settingsHandler::handleBody(AsyncWebServerRequest *request, uint8_t *data, 
     AsyncResponseStream *response = request->beginResponseStream("application/json");
     response->print("{ \"status\": \"success\"}");
     request->send(response);
+  }///data/devices.json
+  else if(request->url().equalsIgnoreCase("/data/relations.json")) {
+    Serial.println("handling relations");
+    DynamicJsonBuffer jsonBuffer;
+    JsonArray& root = jsonBuffer.parseArray((const char*)data);
+    if (!root.success())
+    {
+      AsyncResponseStream *response = request->beginResponseStream("application/json");
+      response->print("{ \"status\": \"failure\"}");
+      request->send(response);
+      return;
+    }
+    File f = SPIFFS.open("/www/data/getrelations.json", "w");
+    root.printTo(f);
+    f.close();
+    AsyncResponseStream *response = request->beginResponseStream("application/json");
+    response->print("{ \"status\": \"success\"}");
+    request->send(response);
+  }
+  else if(request->url().equalsIgnoreCase("/data/reboot.php")) {
+    DynamicJsonBuffer jsonBuffer;
+    JsonObject& root = jsonBuffer.parseObject((const char*)data);
+    if(root.get("action").as<String>().equalsIgnoreCase("reboot")) {
+      ESP.reset();
+    }
   }
 }
 void settingsHandler::handleRequest(AsyncWebServerRequest *request) {
